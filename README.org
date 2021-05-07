@@ -1,0 +1,2 @@
+#+TITLE: I ❤️ Emacs
+#+AUTHOR: Wen Jun

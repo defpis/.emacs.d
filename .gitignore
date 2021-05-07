@@ -1,0 +1,6 @@
+auto-save-list/
+elpa/
+config.el*
+custom.el*
+.last-package-update-day
+recentf*
