@@ -180,12 +180,16 @@
   (evil-collection-init))
 #+END_SRC
 
-快读打开配置
+快速打开配置和文档
 
 #+BEGIN_SRC emacs-lisp
 (defun dp/open-private-config ()
   (interactive)
-  (find-file (expand-file-name "config.org" user-emacs-directory)))
+  (counsel-find-file user-emacs-directory))
+
+(defun dp/open-private-org ()
+  (interactive)
+  (counsel-find-file "~/Org"))
 #+END_SRC
 
 快速重启
@@ -227,26 +231,36 @@
     :states 'normal
     :prefix "SPC q"
     "" '(:ignore t :which-key "quit"))
+
   (general-create-definer dp/open-leader-def
     :states 'normal
     :prefix "SPC o"
     "" '(:ignore t :which-key "open"))
+
+  (general-create-definer dp/open-private-leader-def
+    :states 'normal
+    :prefix "SPC o p"
+    "" '(:ignore t :which-key "private"))
+
   (general-create-definer dp/buffer-leader-def
     :states 'normal
     :prefix "SPC b"
-    "" '(:ignore t :which-key "buffer")))
+    "" '(:ignore t :which-key "buffer"))
 
-(dp/open-leader-def 
-  "p" 'dp/open-private-config
-  "f" 'counsel-find-file
-  "r" 'counsel-recentf)
+  (dp/quit-leader-def 
+    "r" 'restart-emacs
+    "q" 'save-buffers-kill-emacs
+    "Q" 'kill-emacs)
 
-(dp/quit-leader-def 
-  "r" 'restart-emacs
-  "q" 'save-buffers-kill-emacs
-  "Q" 'kill-emacs)
+  (dp/open-leader-def 
+    "f" 'counsel-find-file
+    "r" 'counsel-recentf)
 
-(dp/buffer-leader-def
-  "b" 'counsel-switch-buffer
-  "s" 'swiper)
+  (dp/open-private-leader-def 
+    "c" 'dp/open-private-config
+    "o" 'dp/open-private-org)
+
+  (dp/buffer-leader-def
+    "b" 'counsel-switch-buffer
+    "s" 'swiper))
 #+END_SRC
