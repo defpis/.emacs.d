@@ -18,9 +18,9 @@
 包管理配置
 
 #+BEGIN_SRC emacs-lisp
-(setq-default package-archives '(("melpa" . "http://mirrors.bfsu.edu.cn/elpa/melpa/")
-                                 ("gnu" . "http://mirrors.bfsu.edu.cn/elpa/gnu/")
-                                 ("org" . "http://mirrors.bfsu.edu.cn/elpa/org/")))
+(setq-default package-archives '(("melpa" . "https://elpa.emacs-china.org/melpa/")
+                                 ("gnu" . "https://elpa.emacs-china.org/gnu/")
+                                 ("org" . "https://elpa.emacs-china.org/org/")))
 
 (setq-default package-check-signature nil)
 
@@ -163,8 +163,8 @@
 #+BEGIN_SRC emacs-lisp
 (use-package evil
   :init
-  (setq-default evil-want-integration t
-                evil-want-keybinding nil)
+  ;; (setq-default evil-want-integration t
+  ;;               evil-want-keybinding nil)
   :config
   (setq-default evil-emacs-state-cursor '("red" box)
                 evil-normal-state-cursor '("green" box)
@@ -174,10 +174,10 @@
                 evil-operator-state-cursor '("red" hollow))
   (evil-mode t))
 
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
+;; (use-package evil-collection
+;;   :after evil
+;;   :config
+;;   (evil-collection-init))
 #+END_SRC
 
 快速打开配置和文档
@@ -211,15 +211,21 @@
 配置 =swiper= =ivy= =counsel= 三剑客
 
 #+BEGIN_SRC emacs-lisp
-(use-package swiper)
+;; (use-package swiper)
 
-(use-package ivy
-  :config
-  (ivy-mode t))
+;; (use-package ivy
+;;   :config
+;;   (ivy-mode t))
 
-(use-package counsel
-  :config
-  (counsel-mode t))
+;; (use-package counsel
+;;   :config
+;;   (counsel-mode t))
+#+END_SRC
+
+配置 =magit=
+
+#+BEGIN_SRC emacs-lisp
+(use-package magit)
 #+END_SRC
 
 使用 =general= 管理快捷键
@@ -228,24 +234,29 @@
 (use-package general
   :config
   (general-create-definer dp/quit-leader-def
-    :states 'normal
+    :states '(emacs normal)
     :prefix "SPC q"
     "" '(:ignore t :which-key "quit"))
 
   (general-create-definer dp/open-leader-def
-    :states 'normal
+    :states '(emacs normal)
     :prefix "SPC o"
     "" '(:ignore t :which-key "open"))
 
   (general-create-definer dp/open-private-leader-def
-    :states 'normal
+    :states '(emacs normal)
     :prefix "SPC o p"
     "" '(:ignore t :which-key "private"))
 
   (general-create-definer dp/buffer-leader-def
-    :states 'normal
+    :states '(emacs normal)
     :prefix "SPC b"
     "" '(:ignore t :which-key "buffer"))
+
+  (general-create-definer dp/magit-leader-def
+    :states '(emacs normal)
+    :prefix "SPC g"
+    "" '(:ignore t :which-key "magit"))
 
   (dp/quit-leader-def 
     "r" 'restart-emacs
@@ -262,5 +273,12 @@
 
   (dp/buffer-leader-def
     "b" 'counsel-switch-buffer
-    "s" 'swiper))
+    "s" 'swiper)
+
+  (dp/magit-leader-def
+    "g" 'magit-status)
+
+  (evil-define-key '(emacs normal) magit-mode-map
+    "j" 'evil-next-line
+    "k" 'evil-previous-line))
 #+END_SRC
